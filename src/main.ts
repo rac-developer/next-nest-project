@@ -16,6 +16,9 @@ async function bootstrap() {
 
   // Prefijo global para la API
   app.setGlobalPrefix('api');
+  // Importante, es lo que va a permitir al navegador hacer las consultas al backend sin bloquearlas
+  app.enableCors();
+  
   await app.listen(process.env.PORT ?? 4000);
 }
 bootstrap();
