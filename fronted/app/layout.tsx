@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google"
-import { cn } from "@/lib/utils"
+import { cn } from "@/src/lib/utils"
 import "./globals.css";
 
 const fontSans = FontSans({
@@ -25,8 +25,14 @@ export default function RootLayout({
         fontSans.className,
         "h-full antialiased",
       )}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {/* Esto crea un margen superior de 5 */}
+        <main className="container mx-auto pt-5">
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
