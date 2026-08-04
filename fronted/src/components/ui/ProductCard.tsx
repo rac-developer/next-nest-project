@@ -25,7 +25,9 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div>
-      <Card key={product.id}>
+      <Card key={product.id} onClick={() => {
+        router.push(`/products/${product.id}`)
+      }}>
               <CardHeader>
                 <CardTitle className="flex justify-between">
                   {product.name}
@@ -41,8 +43,14 @@ export default function ProductCard({ product }: ProductCardProps) {
                 </p>
               </CardContent>
               <CardFooter className="flex justify-between">
-                <Button className="mt-5">Comprar</Button>
-                <Button className="mt-5" variant="destructive" onClick={handleDelete}>Eliminar</Button>
+                <Button className="mt-5" onClick={(e) => {
+                  e.stopPropagation();
+                  router.push(`/products/${product.id}/edit`)
+                }}>Editar</Button>
+                <Button className="mt-5" variant="destructive" onClick={(e) => {
+                  e.stopPropagation();
+                  handleDelete();
+                }}>Eliminar</Button>
               </CardFooter>
             </Card>
     </div>

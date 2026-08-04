@@ -3,8 +3,9 @@ import { Input } from '@/src/components/ui/input';
 import { Button } from '@/src/components/ui/button';
 import { Label } from '@/src/components/ui/label';
 import { useForm } from 'react-hook-form';
-import { createProduct } from '@/app/products/products.api';
-import { useRouter } from 'next/navigation'
+import { createProduct, updateProduct } from '@/app/products/products.api';
+import { useParams, useRouter } from 'next/navigation'
+
 
 interface FormValues {
   name: string;
@@ -13,20 +14,47 @@ interface FormValues {
   images: string;
 }
 
-function ProductForm() {
+interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number | string;
+  images: string;
+}
 
-  const { register, handleSubmit } = useForm<FormValues>();
+function ProductForm({ product }: { product: Product | null }) {
+
+  const { register, handleSubmit } = useForm<FormValues>({
+    values: {
+      name: product?.name || '',
+      description: product?.description || '',
+      price: product?.price ? String(product.price) : '',
+      images: product?.images || ''
+    }
+  });
   const router = useRouter();
+  const params = useParams<{id?: string}>();
 
-  const onSubmit = handleSubmit(async (data: FormValues) => {
-    await createProduct({
-      ...data,
-      price: parseFloat(data.price)
-    });
+const onSubmit = handleSubmit(async (data: FormValues) => {
+    if (params?.id) {
+      // Pasamos params.id y los datos convertidos por separado
+      await updateProduct(params.id, {
+        name: data.name,
+        description: data.description,
+        price: parseFloat(data.price),
+        images: data.images
+      });
+    } else {
+      await createProduct({
+        ...data,
+        price: parseFloat(data.price)
+      });
+    }
     router.push('/')
     router.refresh();
   })
 
+  
   return (
     <form onSubmit={onSubmit}>
       <Label>Product Name</Label>
@@ -38,7 +66,7 @@ function ProductForm() {
       <Label>Image</Label>
       <Input {...register('images')}></Input>
 
-      <Button type='submit'>Create Product</Button>
+      <Button type='submit'>{product ? 'Update Product' : 'Create Product'}</Button>
     </form>
   )
 }
