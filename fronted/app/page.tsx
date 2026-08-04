@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Button, buttonVariants } from '@/src/components/ui/button'
+import { buttonVariants } from '@/src/components/ui/button'
 import { getProducts } from './products/products.api';
-import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
+import ProductCard from "@/src/components/ui/ProductCard";
 
 export default async function Home() {
 
@@ -19,26 +19,10 @@ export default async function Home() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 py-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-4">
         {
-          products.map((product) => (
-            <Card key={product.id}>
-              <CardHeader>
-                <CardTitle className="flex justify-between">
-                  {product.name}
-                  <span className="text-sm font-bold text-green-400">
-                    ${product.price}
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <img src={product.images} alt={product.name} className="w-full h-auto" />
-                <p>
-                  {product.description}
-                </p>
-                <Button className="mt-5">Buy</Button>
-              </CardContent>
-            </Card>
+          products.map((product: any) => (
+            <ProductCard key={product.id} product={product} />
           ))
         }
       </div>

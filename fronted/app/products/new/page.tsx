@@ -4,7 +4,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/src/components/ui/card"
-import ProductForm from "./components/product-form"
+import ProductForm from "./components/ProductForm"
 
 function ProductNewPage() {
   return (

@@ -12,3 +12,9 @@ export async function createProduct(product: { name: string, description: string
     body: JSON.stringify(product),
   })
 }
+
+export async function deleteProduct(id: string) {
+  return await fetch(`http://localhost:4000/api/products/${id}`, {
+    method: 'DELETE',
+  })
+}
