@@ -3,6 +3,8 @@ import { buttonVariants } from '@/src/components/ui/button'
 import { getProducts } from './products/products.api';
 import ProductCard from "@/src/components/ui/ProductCard";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
 
   const products = await getProducts();
